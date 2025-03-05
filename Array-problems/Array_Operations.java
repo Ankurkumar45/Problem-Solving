@@ -1,5 +1,6 @@
 import java.util.HashMap;
 import java.util.Arrays;
+import java.util.OptionalDouble;
 import java.util.stream.IntStream;
 
 class Array_Operations{
@@ -73,6 +74,14 @@ class Array_Operations{
 		}
 	}
 	
+	private static void swap(int arr[], int start, int end, int n){
+		for(int i = 0; i < n; i++){
+			int temp = arr[start + i];
+			arr[start + i] = arr[end + i];
+			arr[end + i] = temp;
+		}
+	}
+	
 	private static void frequency_count(int arr[]){
 		int n = arr.length;
 		if(n == 1) System.out.println(arr[0] + " -> " + 1);
@@ -118,6 +127,37 @@ class Array_Operations{
 		return IntStream.of(arr).sum();
 	}
 	
+	private static void rotateByK(int arr[], int i, int k, int n){
+		if(k == 0 || k == n) return;
+		
+		if(k == n - k){
+			swap(arr, i, n - k + i, k);
+			return;
+		} else if(k < n - k){
+			swap(arr, i , n - k + i , k);
+			rotateByK(arr, i, k, n - k);
+		} else{
+			swap(arr, i , k , n - k);
+			rotateByK(arr, n - k + i, 2 * k - n, k);
+		}
+	}
+	
+	private static double avg(int arr[]){
+		int n = arr.length;
+		
+		//if(n < 2) return arr[0];
+		
+		/*OptionalDouble average = IntStream.of(arr).average();
+		
+		if(average.isPresent()) {
+			System.out.println("Average = " + average.getAsDouble());
+		} else{
+			System.out.println("Array is empty!");
+		}*/
+		
+		return (sumOfElements(arr)) / n;
+	}
+	
 	private static void printArray(int arr[]){
 		int n = arr.length;
 		for(int value : arr) System.out.print(value + " ");
@@ -126,7 +166,7 @@ class Array_Operations{
 	
 	public static void main(String[] args){
 		
-		int arr[] = {8, 7, 1, 6, 5, 9};
+		int arr[] = {1,2,3,4,5};
 		
 		/*Scanner sc = new Scanner(System.in);
 		System.out.print("Enter length of array: ");
@@ -153,8 +193,10 @@ class Array_Operations{
 		increasing_decreasing(arr);
 		
 		System.out.println("Sum of the elements is " + sumOfElements(arr));
+		rotateByK(arr, 0, 2, 5);
+
 		*/
-		
+		System.out.println("Average = " + avg(arr));
 		//printArray(arr);
 		System.out.println();
 	}
